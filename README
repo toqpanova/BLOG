@@ -1,0 +1,210 @@
+Documentation (Blog API )
+
+1) Аутентификация
+
+Для использования большинства эндпоинтов API требуется аутентификация с использованием токена. Для получения токена, выполните запрос к /api/token/ с учетными данными пользователя.
+
+Пример запроса на получение токена:
+
+http
+Copy code
+POST /api/token/
+Content-Type: application/json
+
+{
+    "username": "your_username",
+    "password": "your_password"
+}
+
+Пример успешного ответа:
+
+json
+Copy code
+{
+    "token": "your_access_token"
+}
+Далее, при выполнении запросов к остальным эндпоинтам, укажите полученный токен в заголовке Authorization:
+
+http
+Copy code
+GET /api/posts/
+Authorization: Token your_access_token
+2)Эндпоинты
+
+1. Получение списка постов
+URL: /api/posts/
+
+Метод: GET
+
+Описание: Получение списка всех постов.
+
+Пример успешного ответа:
+
+json
+Copy code
+[
+    {
+        "id": 1,
+        "title": "Example Post 1",
+        "content": "Lorem ipsum...",
+        "published_date": "2022-01-01T00:00:00Z"
+    },
+    {
+        "id": 2,
+        "title": "Example Post 2",
+        "content": "Lorem ipsum...",
+        "published_date": "2022-01-02T00:00:00Z"
+    }
+    ...
+]
+2. Получение деталей поста
+URL: /api/posts/{post_id}/
+
+Метод: GET
+
+Описание: Получение деталей конкретного поста по его идентификатору.
+
+Пример успешного ответа:
+
+json
+Copy code
+{
+    "id": 1,
+    "title": "Example Post 1",
+    "content": "Lorem ipsum...",
+    "published_date": "2022-01-01T00:00:00Z",
+    "comments": [
+        {
+            "id": 1,
+            "author_name": "John Doe",
+            "comment_text": "Great post!",
+            "created_date": "2022-01-01T12:00:00Z"
+        },
+        ...
+    ]
+}
+3. Получение списка комментариев
+URL: /api/comments/
+
+Метод: GET
+
+Описание: Получение списка всех комментариев.
+
+Пример успешного ответа:
+
+json
+Copy code
+[
+    {
+        "id": 1,
+        "author_name": "John Doe",
+        "comment_text": "Great post!",
+        "created_date": "2022-01-01T12:00:00Z"
+    },
+    {
+        "id": 2,
+        "author_name": "Jane Doe",
+        "comment_text": "Nice article!",
+        "created_date": "2022-01-02T10:30:00Z"
+    }
+    ...
+]
+4. Получение деталей комментария
+URL: /api/comments/{comment_id}/
+
+Метод: GET
+
+Описание: Получение деталей конкретного комментария по его идентификатору.
+
+Пример успешного ответа:
+
+json
+Copy code
+{
+    "id": 1,
+    "author_name": "John Doe",
+    "comment_text": "Great post!",
+    "created_date": "2022-01-01T12:00:00Z",
+    "post": {
+        "id": 1,
+        "title": "Example Post 1"
+    }
+}
+5. Создание поста
+URL: /api/posts/
+
+Метод: POST
+
+Описание: Создание нового поста.
+
+Формат данных в теле запроса:
+
+json
+Copy code
+{
+    "title": "New Post Title",
+    "content": "New post content..."
+}
+Пример успешного ответа:
+
+json
+Copy code
+{
+    "id": 3,
+    "title": "New Post Title",
+    "content": "New post content...",
+    "published_date": "2022-01-03T08:45:00Z"
+}
+6. Обновление поста
+URL: /api/posts/{post_id}/
+
+Метод: PUT или PATCH
+
+Описание: Обновление существующего поста.
+
+Формат данных в теле запроса:
+
+json
+Copy code
+{
+    "title": "Updated Post Title",
+    "content": "Updated post content..."
+}
+Пример успешного ответа:
+
+json
+Copy code
+{
+    "id": 3,
+    "title": "Updated Post Title",
+    "content": "Updated post content...",
+    "published_date": "2022-01-03T08:45:00Z"
+}
+7. Удаление поста
+URL: /api/posts/{post_id}/
+
+Метод: DELETE
+
+Описание: Удаление существующего поста.
+
+Пример успешного ответа:
+
+json
+Copy code
+{
+    "detail": "Post successfully deleted."
+}
+8. Создание комментария
+URL: /api/comments/
+
+Метод: POST
+
+Описание: Создание нового комментария.
+
+Формат данных в теле запроса:
+
+json
+Copy code
+{
+    "post_id": 3,
+    "author_name": "John
